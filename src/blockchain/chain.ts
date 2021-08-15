@@ -1,6 +1,7 @@
 import { Block } from "./block";
 import { Data } from "./data";
 import { v4 as uuidv4 } from 'uuid';
+import { UserKeys } from "./UserKeys";
 
 export class Chain {
     private constructor(
@@ -9,13 +10,14 @@ export class Chain {
     ) { }
 
     public AddBlock(block: Block): void {
-        // TODO
-        this.blocks.push(block);
+        // TODO proof of work?
+        throw new Error("error");
+        // this.blocks.push(block);
     }
 
-    public static StartChain(data: Data, nonce: number = 1): Chain {
+    public static StartChain(keys: UserKeys, data: Data, nonce: number = 1): Chain {
         const id = uuidv4();
-        const blocks = [Block.GenerateGenesisBlock(data, nonce)];
+        const blocks = [Block.GenerateGenesisBlock(keys, data, nonce)];
         return new Chain(id, blocks);
     }
 

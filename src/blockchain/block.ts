@@ -3,10 +3,13 @@ import { Hash } from "./hash";
 import { Timestamp } from "./timestamp";
 import { v4 as uuidv4 } from 'uuid';
 import { Transaction } from "./transaction";
+import { PublicKey } from "./publicKey";
+import { UserKeys } from "./UserKeys";
 
 export class Block {
     private constructor(
         public readonly Id: string,
+        public readonly Owner: PublicKey,
         public readonly Timestamp: Timestamp,
         public readonly Data: Data,
         public readonly PreviousHash: Hash,
@@ -14,21 +17,21 @@ export class Block {
         public readonly Transaction: Transaction
     ) {}
 
-    public static GenerateNewBlock(data: Data, previousBlock: Block, transaction: Transaction, nonce: number = 1): Block {
+    public static GenerateNewBlock(keys: UserKeys, data: Data, previousBlock: Block, transaction: Transaction, nonce: number = 1): Block {
         const currentTime = new Timestamp();
-        const hash = Hash.GenerateHash(previousBlock.Hash, currentTime, data, nonce);
+        const hash = Hash.GenerateHash(keys.Private, previousBlock.Hash, currentTime, data, nonce);
         const id = uuidv4();
 
-        return new Block(id, currentTime, data, previousBlock.Hash, hash, transaction);
+        return new Block(id, keys.Public, currentTime, data, previousBlock.Hash, hash, transaction);
     }
 
-    public static GenerateGenesisBlock(data: Data, nonce: number = 1): Block {
+    public static GenerateGenesisBlock(keys: UserKeys, data: Data, nonce: number = 1): Block {
         const currentTime = new Timestamp();
         const genesisHash = Hash.GenesisHash();
-        const hash = Hash.GenerateHash(genesisHash, currentTime, data, nonce);
+        const hash = Hash.GenerateHash(keys.Private, genesisHash, currentTime, data, nonce);
         const id = uuidv4();
 
-        return new Block(id, currentTime, data, genesisHash, hash, Transaction.Create);
+        return new Block(id, keys.Public, currentTime, data, genesisHash, hash, Transaction.Create);
     }
 
 }
