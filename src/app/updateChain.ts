@@ -1,10 +1,10 @@
-import { Block } from "../blockchain/block";
-import { Data } from "../blockchain/data";
-import { Transaction } from "../blockchain/transaction";
-import { UserKeys } from "../blockchain/UserKeys";
-import { BlockchainRepository } from "../services/blockchainRepository";
+import { Block } from "../core/blockchain/block";
+import { Data } from "../core/blockchain/data";
+import { Transaction } from "../core/blockchain/transaction";
+import { UserKeys } from "../core/blockchain/UserKeys";
+import { BlockchainRepository } from "../core/services/blockchainRepository";
 import { BlockDTO } from "./dtos/blockDto";
-import { ValidateCannAddBlock } from "./utils/ValidateCanAddBlock";
+import { ValidateBlockTransfer } from "./utils/validateBlockTransfer";
 
 export class UpdateChain {
     constructor(
@@ -15,11 +15,11 @@ export class UpdateChain {
         const chain = await this.repository.ReadChain(chainId);
         const lastBlock = chain.LastBlock;
 
-        if (!ValidateCannAddBlock(lastBlock, keys.Public)) {
+        if (!ValidateBlockTransfer(lastBlock, keys.Public)) {
             throw new Error("CAN NOT APPEND BLOCK TO THE CHAIN");
         }
 
-        const newBlock = Block.GenerateNewBlock(keys, data, lastBlock, Transaction.Transfer);
+        const newBlock = Block.GenerateNewBlock(keys.Public, keys.Private, data, lastBlock, Transaction.Transfer);
         chain.AddBlock(newBlock);
 
         await this.repository.UpsertChain(chain);

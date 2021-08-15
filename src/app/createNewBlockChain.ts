@@ -1,7 +1,7 @@
-import { Chain } from "../blockchain/chain";
-import { Data } from "../blockchain/data";
-import { UserKeys } from "../blockchain/UserKeys";
-import { BlockchainRepository } from "../services/blockchainRepository";
+import { Chain } from "../core/blockchain/chain";
+import { Data } from "../core/blockchain/data";
+import { UserKeys } from "../core/blockchain/UserKeys";
+import { BlockchainRepository } from "../core/services/blockchainRepository";
 import { BlockDTO } from "./dtos/blockDto";
 
 export class CreateNewBlockchain {

@@ -5,7 +5,11 @@ export class PrivateKey {
         public Key: string
     ) { }
 
-    public static GenerateKey() {
+    public static GenerateKey(): PrivateKey {
         return new PrivateKey(v4());
+    }
+
+    public static GenerateBurnKey(): PrivateKey {
+        return this.GenerateKey();
     }
 }

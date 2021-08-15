@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Transaction } from "./transaction";
 import { PublicKey } from "./publicKey";
 import { UserKeys } from "./UserKeys";
+import { PrivateKey } from "./privateKey";
 
 export class Block {
     private constructor(
@@ -17,12 +18,12 @@ export class Block {
         public readonly Transaction: Transaction
     ) {}
 
-    public static GenerateNewBlock(keys: UserKeys, data: Data, previousBlock: Block, transaction: Transaction, nonce: number = 1): Block {
+    public static GenerateNewBlock(publicKey: PublicKey, privateKey: PrivateKey, data: Data, previousBlock: Block, transaction: Transaction, nonce: number = 1): Block {
         const currentTime = new Timestamp();
-        const hash = Hash.CalculateHash(keys.Private, previousBlock.Hash, currentTime, data, nonce);
+        const hash = Hash.CalculateHash(privateKey, previousBlock.Hash, currentTime, data, nonce);
         const id = uuidv4();
 
-        return new Block(id, keys.Public, currentTime, data, previousBlock.Hash, hash, transaction);
+        return new Block(id, publicKey, currentTime, data, previousBlock.Hash, hash, transaction);
     }
 
     public static GenerateGenesisBlock(keys: UserKeys, data: Data, nonce: number = 1): Block {

@@ -5,7 +5,11 @@ export class PublicKey {
         public Key: string
     ) { }
 
-    public static GenerateKey() {
+    public static GenerateKey(): PublicKey {
         return new PublicKey(v4());
+    }
+
+    public static GenerateBurnKey(): PublicKey {
+        return new PublicKey("BURN_PUBLIC_KEY");
     }
 }

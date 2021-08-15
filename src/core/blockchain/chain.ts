@@ -6,7 +6,7 @@ import { UserKeys } from "./UserKeys";
 export class Chain {
     private constructor(
         public readonly Id: string,
-        public readonly blocks: Block []
+        public readonly Blocks: Block []
     ) { }
 
     public AddBlock(block: Block): void {
@@ -22,11 +22,11 @@ export class Chain {
     }
 
     public get FirstBlock(): Block {
-        return this.blocks[0];
+        return this.Blocks[0];
     }
 
     public get LastBlock(): Block {
-        return this.blocks[this.blocks.length-1];
+        return this.Blocks[this.Blocks.length-1];
     }
 
 }

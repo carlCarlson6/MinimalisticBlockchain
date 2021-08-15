@@ -1,5 +1,5 @@
-import { Block } from "../../blockchain/block";
-import { Transaction } from "../../blockchain/transaction";
+import { Block } from "../../core/blockchain/block";
+import { Transaction } from "../../core/blockchain/transaction";
 
 export class BlockDTO {
     constructor(
