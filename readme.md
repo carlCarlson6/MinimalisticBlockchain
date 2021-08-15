@@ -1,1 +1,1 @@
-A small blockchain system to integrate with other systems.
+A small blockchain system to integrate with other apps.
