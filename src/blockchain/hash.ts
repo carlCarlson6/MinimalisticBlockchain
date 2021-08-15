@@ -11,4 +11,8 @@ export class Hash {
         const hashValue = SHA256(previoushHash.Value + timestamp.Value + data.ToJson() + nonce).toString();
         return new Hash(hashValue);
     }
+
+    public static GenesisHash(): Hash {
+        return new Hash("0");
+    }
 }
