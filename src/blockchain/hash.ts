@@ -8,12 +8,13 @@ export class Hash {
         public readonly Value: string
     ) {} 
 
-    public static GenerateHash(privateKey: PrivateKey, previoushHash: Hash, timestamp: Timestamp, data: Data, nonce: number = 1): Hash {
+    public static CalculateHash(privateKey: PrivateKey, previoushHash: Hash, timestamp: Timestamp, data: Data, nonce: number = 1): Hash {
         const hashValue = SHA256(privateKey.Key + previoushHash.Value + timestamp.Value + data.ToJson() + nonce).toString();
         return new Hash(hashValue);
     }
 
-    public static GenesisHash(): Hash {
-        return new Hash("0");
+    public static GenesisHash(privateKey: PrivateKey, timestamp: Timestamp): Hash {
+        const hashValue = SHA256(privateKey.Key + timestamp.Value).toString();
+        return new Hash(hashValue);
     }
 }

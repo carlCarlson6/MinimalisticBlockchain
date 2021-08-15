@@ -19,7 +19,7 @@ export class Block {
 
     public static GenerateNewBlock(keys: UserKeys, data: Data, previousBlock: Block, transaction: Transaction, nonce: number = 1): Block {
         const currentTime = new Timestamp();
-        const hash = Hash.GenerateHash(keys.Private, previousBlock.Hash, currentTime, data, nonce);
+        const hash = Hash.CalculateHash(keys.Private, previousBlock.Hash, currentTime, data, nonce);
         const id = uuidv4();
 
         return new Block(id, keys.Public, currentTime, data, previousBlock.Hash, hash, transaction);
@@ -27,8 +27,8 @@ export class Block {
 
     public static GenerateGenesisBlock(keys: UserKeys, data: Data, nonce: number = 1): Block {
         const currentTime = new Timestamp();
-        const genesisHash = Hash.GenesisHash();
-        const hash = Hash.GenerateHash(keys.Private, genesisHash, currentTime, data, nonce);
+        const genesisHash = Hash.GenesisHash(keys.Private, currentTime);
+        const hash = Hash.CalculateHash(keys.Private, genesisHash, currentTime, data, nonce);
         const id = uuidv4();
 
         return new Block(id, keys.Public, currentTime, data, genesisHash, hash, Transaction.Create);
